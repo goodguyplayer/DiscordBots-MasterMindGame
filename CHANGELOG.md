@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - 2021-04-17
+### Added
+- Imported folders and files from the [previous attempt](https://github.com/goodguyplayer/MastermindGame-JavaAttempt)
+
 ## [0.0.1] - 2021-04-17
 ### Added
 - This Changelog
