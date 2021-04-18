@@ -75,8 +75,8 @@ public class Player {
      * method that receives the attempt and stores it.
      * @Author Nathan (goodguyplayer)
      */
-    public void setAttempt() {
-        attempt = reader.nextLine().toLowerCase();
+    public void setAttempt(String attempt) {
+        this.attempt = attempt;
     }
 
     /**

@@ -7,12 +7,15 @@ import java.util.Scanner;
  * Class that loads a file and return the data.
  *
  * @author Nathan (goodguyplayer)
- * @Version 0
+ * @Version 0.1
  * @since 2021-04-18
  */
 
 /*
 Changelog.:
+
+Version 0.1.:
+    - attempt updated
 
 Version 0.:
     - Added vars
