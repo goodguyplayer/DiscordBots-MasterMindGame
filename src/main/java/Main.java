@@ -28,7 +28,6 @@ public class Main {
         DiscordApi api = new DiscordApiBuilder().setToken(fileReader.getFileContent())
                 .setIntents(Intent.GUILDS, Intent.GUILD_MESSAGES, Intent.DIRECT_MESSAGES)
                 .login().join();
-        System.out.println(api.createBotInvite());
 
         api.addListener(new ListenerCommands());
 
