@@ -27,10 +27,11 @@ public class DiscordBotSettings {
      * @return api for further usage
      */
     public DiscordApi botSettings(String token) {
-        return new DiscordApiBuilder()
-                    .setToken(token)
-                    .setIntents(Intent.GUILDS, Intent.GUILD_MESSAGES, Intent.DIRECT_MESSAGES)
-                    .login()
-                    .join();
+        DiscordApi api = new DiscordApiBuilder()
+                .setToken(token)
+                .setIntents(Intent.GUILDS, Intent.GUILD_MESSAGES, Intent.DIRECT_MESSAGES)
+                .login()
+                .join();
+        return api;
     }
 }

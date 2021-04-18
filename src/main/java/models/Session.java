@@ -26,7 +26,7 @@ Version 0.:
     - Added checkInCode method
  */
 public class Session {
-    Player player = new Player();
+    Player player = new Player("null");
     Code code = new Code();
     int correct = 0;
     int incode = 0;
@@ -68,7 +68,7 @@ public class Session {
      * @author Nathan (goodguyplayer)
      */
     private boolean checkLetterMatch(int position) {
-        if (player.getAttempt().charAt(position) == code.getCode().charAt(position)){
+        if (player.getAttempt().charAt(position) == code.getCode().charAt(position)) {
             return true;
         }
         return false;

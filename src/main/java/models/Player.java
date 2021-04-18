@@ -6,12 +6,16 @@ import java.util.Scanner;
  * Class meant to represent the player. It should, at minimum, hold the score and attempts.
  *
  * @author Nathan (goodguyplayer)
- * @Version 0
+ * @Version 0.2
  * @since 2021-04-17
  */
 
 /*
 Changelog.:
+
+Version 0.2
+    - Added variable string name
+    - Added getter for name
 
 Version 0.1
     - updated setAttempt.
@@ -26,6 +30,7 @@ Version 0
     - Added setAttempt
  */
 public class Player {
+    private String name;
     private int score;
     private String attempt;
     Scanner reader = new Scanner(System.in);
@@ -34,9 +39,10 @@ public class Player {
      * Constructor. Once class is created, start the score and attempt.
      * @author Nathan (goodguyplayer)
      */
-    public Player() {
+    public Player(String name) {
         score = 0;
         attempt = "";
+        this.name = name;
     }
 
     /**
@@ -71,5 +77,13 @@ public class Player {
      */
     public void setAttempt() {
         attempt = reader.nextLine().toLowerCase();
+    }
+
+    /**
+     * getter for the player name
+     * @return
+     */
+    public String getName() {
+        return name;
     }
 }

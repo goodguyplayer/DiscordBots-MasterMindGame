@@ -1,8 +1,7 @@
+import models.DiscordBotSettings;
 import models.FileReader;
 import models.ListenerCommands;
 import org.javacord.api.DiscordApi;
-import org.javacord.api.DiscordApiBuilder;
-import org.javacord.api.entity.intent.Intent;
 
 /**
  * Main class, the one that calls the bot and make it run.
@@ -24,10 +23,9 @@ public class Main {
     public static void main(String[] args) {
 
         FileReader fileReader = new FileReader("discordtoken");
+        DiscordBotSettings discordBotSettings = new DiscordBotSettings();
 
-        DiscordApi api = new DiscordApiBuilder().setToken(fileReader.getFileContent())
-                .setIntents(Intent.GUILDS, Intent.GUILD_MESSAGES, Intent.DIRECT_MESSAGES)
-                .login().join();
+        DiscordApi api = discordBotSettings.botSettings(fileReader.getFileContent());
 
 
         api.addListener(new ListenerCommands());
