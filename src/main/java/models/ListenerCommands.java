@@ -40,7 +40,7 @@ public class ListenerCommands implements MessageCreateListener {
      * @author Nathan (goodguyplayer)
      */
     private void commandHelp(MessageCreateEvent event){
-        if (event.getMessageContent().equalsIgnoreCase("!help")){
+        if (event.getMessageContent().equalsIgnoreCase("!help")) {
             new MessageBuilder()
                     .append("Well hello there! \n")
                     .append("You called for help, so I'll teach ")
