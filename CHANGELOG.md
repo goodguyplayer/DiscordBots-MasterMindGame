@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2021-04-18
+### Added
+- Created class FileReader, meant to load the keys required for the bot.
+
+### Changed
+- Formatting to class Code
+- Formatting to class Player
+- Formatting to class Session
+- pom.xml to include jUtil
+
 ## [0.0.2] - 2021-04-17
 ### Added
 - Imported folders and files from the [previous attempt](https://github.com/goodguyplayer/MastermindGame-JavaAttempt)
