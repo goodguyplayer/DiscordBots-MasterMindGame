@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 2021-04-18
+### Added
+- Created class DiscordBotSettings, meant to deal with the start up settings.
+- Created class ListenerCommands, meant to deal with the commands for the listener.
+
+### Changed
+- pom.xml to include log4j
+
 ## [0.0.3] - 2021-04-18
 ### Added
 - Created class FileReader, meant to load the keys required for the bot.
