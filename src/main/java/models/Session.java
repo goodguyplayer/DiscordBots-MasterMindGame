@@ -39,7 +39,7 @@ public class Session {
      * Else, add to score and repeat same steps.
      * @author Nathan (goodguyplayer)
      */
-    public void gameSession(){
+    public void gameSession() {
         boolean status = true;
         while (status){
             System.out.println("Please input 4 letters. (Excess letters will be ignored)");
@@ -49,7 +49,7 @@ public class Session {
             verifyLetters();
             printCurrent();
 
-            if(isCodeBroken()){
+            if(isCodeBroken()) {
                 status = false;
             }
 
@@ -67,7 +67,7 @@ public class Session {
      * @return true if the letter match, false if it doesn't.
      * @author Nathan (goodguyplayer)
      */
-    private boolean checkLetterMatch(int position){
+    private boolean checkLetterMatch(int position) {
         if (player.getAttempt().charAt(position) == code.getCode().charAt(position)){
             return true;
         }
@@ -80,8 +80,8 @@ public class Session {
      * @return
      * @author Nathan (goodguyplayer)
      */
-    private boolean checkInCode(int position){
-        if (code.getCode().indexOf(player.getAttempt().charAt(position)) != -1){
+    private boolean checkInCode(int position) {
+        if (code.getCode().indexOf(player.getAttempt().charAt(position)) != -1) {
             return true;
         }
         return false;
@@ -91,11 +91,11 @@ public class Session {
      * Method that verifies the letters based on whether they match, are in the right position or not.
      * @author Nathan (goodguyplayer)
      */
-    private void verifyLetters(){
+    private void verifyLetters() {
         for (int i = 0; i < 4; i++) {
-            if(checkLetterMatch(i)){
+            if(checkLetterMatch(i)) {
                 correct++;
-            } else if(checkInCode(i)){
+            } else if(checkInCode(i)) {
                 incode++;
             } else {
                 wrong++;
@@ -107,7 +107,7 @@ public class Session {
      * Method that gets correct, incode and wrong, printing each to the screen
      * @author Nathan (goodguyplayer)
      */
-    private void printCurrent(){
+    private void printCurrent() {
         System.out.println("There are " + correct + "  letters that matches the code and are in the right position.");
         System.out.println("There are " + incode + "  letters that matches the code  but are in the wrong position.");
         System.out.println("There are " + wrong + "  letters that doesn't match the code.");
@@ -117,7 +117,7 @@ public class Session {
      * Method that reset the counters
      * @author Nathan (goodguyplayer)
      */
-    private void resetCounters(){
+    private void resetCounters() {
         correct = 0;
         incode = 0;
         wrong = 0;
@@ -127,7 +127,7 @@ public class Session {
      * Method that sees whether correct == 4
      * @author Nathan (goodguyplayer)
      */
-    private boolean isCodeBroken(){
+    private boolean isCodeBroken() {
         if (correct == 4){
             return true;
         }

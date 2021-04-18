@@ -43,7 +43,7 @@ public class Player {
      * method that simply increases the score by 1, to avoid touching the variable directly.
      * @author Nathan (goodguyplayer)
      */
-    public void increaseScore(){
+    public void increaseScore() {
         score +=1;
     }
 
@@ -52,7 +52,7 @@ public class Player {
      * @return {int} score  The score of the player.
      * @author Nathan (goodguyplayer)
      */
-    public int getScore(){
+    public int getScore() {
         return score;
     }
 
@@ -69,7 +69,7 @@ public class Player {
      * method that receives the attempt and stores it.
      * @Author Nathan (goodguyplayer)
      */
-    public void setAttempt(){
+    public void setAttempt() {
         attempt = reader.nextLine().toLowerCase();
     }
 }

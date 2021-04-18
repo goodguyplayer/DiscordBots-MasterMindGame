@@ -45,7 +45,7 @@ public class Code {
      * @return A random int that goes from 97 to 102
      * @author Nathan (goodguyplayer)
      */
-    private int randomNumber(){
+    private int randomNumber() {
         //return ThreadLocalRandom.current().nextInt(97, 122 + 1);
         return ThreadLocalRandom.current().nextInt(97, 102 + 1);
     }
@@ -57,7 +57,7 @@ public class Code {
      * @return the char which the number represents
      * @author Nathan (goodguyplayer)
      */
-    private char convertNumberChar(int randomnumber){
+    private char convertNumberChar(int randomnumber) {
         return (char)randomnumber;
     }
 
@@ -65,7 +65,7 @@ public class Code {
      * method that creates the code of 4 letters, using the methods randomNumber and convertNumberChar.
      * @return {String} code
      */
-    private String createCode(){
+    private String createCode() {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             str.append(convertNumberChar(randomNumber()));
