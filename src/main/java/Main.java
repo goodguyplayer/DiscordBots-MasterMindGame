@@ -29,6 +29,7 @@ public class Main {
                 .setIntents(Intent.GUILDS, Intent.GUILD_MESSAGES, Intent.DIRECT_MESSAGES)
                 .login().join();
 
+
         api.addListener(new ListenerCommands());
 
 
