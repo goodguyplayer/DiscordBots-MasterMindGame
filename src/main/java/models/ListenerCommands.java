@@ -1,6 +1,7 @@
 package models;
 
 import DAO.GameDAO;
+import DAO.ScoreDAO;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.MessageDecoration;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -51,6 +52,7 @@ public class ListenerCommands implements MessageCreateListener {
             commandCreateGameSession(event);
             commandTestCode(event);
             commandGiveUp(event);
+            commandGetScore(event);
         }
     }
 
@@ -124,15 +126,20 @@ public class ListenerCommands implements MessageCreateListener {
      */
     private void commandCreateGameSession(MessageCreateEvent event) {
         if (event.getMessageContent().equalsIgnoreCase("!start")) {
+            ScoreDAO score = new ScoreDAO();
+            if (!isInScoreDatabase(event.getMessageAuthor().getName())) {
+                score.create(new Player(event.getMessageAuthor().getName(), event.getServer().toString()));
+            }
+
             if(isInGameDatabase(event.getMessageAuthor().getName())){
                 new MessageBuilder()
-                        .append("Whoops, you are already in a game, silly")
+                        .append("Whoops, you are already in a game, silly\n")
                         .append("Use !try{code} to test a code instead!")
                         .send(event.getChannel());
             } else {
                 new MessageBuilder()
-                        .append("Starting a game session...")
-                        .append("I'm thinking of a word, 4 letters.")
+                        .append("Starting a game session...\n")
+                        .append("I'm thinking of a word, 4 letters.\n")
                         .append("Can you guess it?")
                         .send(event.getChannel());
                 Player player = new Player(event.getMessageAuthor().getName(), event.getServer().toString());
@@ -147,23 +154,27 @@ public class ListenerCommands implements MessageCreateListener {
 
     private void commandTestCode(MessageCreateEvent event) {
         if (event.getMessageContent().contains("!try{")) {
+            ScoreDAO score = new ScoreDAO();
+
             if (isInGameDatabase(event.getMessageAuthor().getName())){
                 GameDAO dao = new GameDAO();
                 GameSession game = dao.get("name LIKE '%"+ event.getMessageAuthor().getName() +"%'").get(0);
                 if(game.playerAttempt(extractCode(event.getMessageContent()))) {
                     new MessageBuilder()
-                            .append("Congrats! You got the code!")
+                            .append("Congrats! You got the code!\n")
                             .append("Your score is " + game.getPlayer().getScore())
                             .send(event.getChannel());
                     dao.delete(game);
+                    score.update(game.getPlayer());
                 } else {
                     new MessageBuilder()
-                            .append("Hmm... " + extractCode(event.getMessageContent()) + " is not quite right...")
-                            .append("There are " + game.getCorrect() + "  letters that matches the code and are in the right position.")
-                            .append("There are " + game.getIncode() + "  letters that matches the code  but are in the wrong position.")
+                            .append("Hmm... " + extractCode(event.getMessageContent()) + " is not quite right...\n")
+                            .append("There are " + game.getCorrect() + "  letters that matches the code and are in the right position.\n")
+                            .append("There are " + game.getIncode() + "  letters that matches the code  but are in the wrong position.\n")
                             .append("There are " + game.getWrong() + "  letters that doesn't match the code.")
                             .send(event.getChannel());
                     dao.update(game);
+
                 }
             }
 
@@ -176,13 +187,34 @@ public class ListenerCommands implements MessageCreateListener {
                 GameDAO dao = new GameDAO();
                 GameSession game = dao.get("name LIKE '%"+ event.getMessageAuthor().getName() +"%'").get(0);
                 new MessageBuilder()
-                        .append("I'm sad at the fact that you're giving up.")
+                        .append("I'm sad at the fact that you're giving up.\n")
                         .append("But hey, hopefully you'll play again")
                         .send(event.getChannel());
                 dao.delete(game);
             }
 
         }
+    }
+
+    private void commandGetScore(MessageCreateEvent event) {
+        ScoreDAO score = new ScoreDAO();
+        if (event.getMessageContent().contains("!score")) {
+            new MessageBuilder()
+                    .append("Here's the server score!")
+                    .setEmbed(new EmbedBuilder()
+                            .setTitle("Score")
+                            .setDescription(scoreBoard(score.get("guild LIKE '%" +  event.getServer() +"%'"))))
+                    .send(event.getChannel());
+        }
+
+    }
+
+    private String scoreBoard(List<Player> players) {
+        String toreturn = "";
+        for (Player player: players) {
+            toreturn += "User.: " + player.getName() + " - Score.: " + player.getScore() + "\n";
+        }
+        return toreturn;
     }
 
     private String extractCode(String text) {
@@ -229,7 +261,12 @@ public class ListenerCommands implements MessageCreateListener {
     }
 
 
-    // TODO.: Get instance in database
-
-    // TODO.: Remove instance from database
+    private boolean isInScoreDatabase(String name) {
+        ScoreDAO dao = new ScoreDAO();
+        List<Player> players = dao.get("name LIKE '%"+ name +"%'");
+        if (players.size() != 0) {
+            return true;
+        }
+        return false;
+    }
 }
