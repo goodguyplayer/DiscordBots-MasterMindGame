@@ -1,9 +1,5 @@
 package models;
 
-import org.javacord.api.event.message.MessageCreateEvent;
-
-import java.util.ArrayList;
-
 /**
  * class meant to represent a game session of the game Mastermind.
  * It should ask the player for an input of 4 letters, compare with the code and loop it until both are correct.
@@ -42,10 +38,12 @@ public class GameSession {
      * Load a session as a class.
      * @param player
      * @param code
+     * @return
      */
-    public void loadSession(Player player, Code code) {
+    public GameSession loadSession(Player player, Code code) {
         this.player = player;
         this.code = code;
+        return this;
     }
 
     public void createSession(Player player) {

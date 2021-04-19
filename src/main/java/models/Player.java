@@ -70,6 +70,10 @@ public class Player {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     /**
      * getter for the player name
      * @return
