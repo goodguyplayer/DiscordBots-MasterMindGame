@@ -169,10 +169,10 @@ public class ListenerCommands implements MessageCreateListener {
                             .append("Congrats! You got the code!\n")
                             .append("Your score is " + game.getPlayer().getScore())
                             .send(event.getChannel());
-                    dao.delete(game);
                     if(isScoreLower(game.getPlayer())) {
                         score.update(game.getPlayer());
                     }
+                    dao.delete(game);
                 } else {
                     new MessageBuilder()
                             .append("Hmm... " + extractCode(event.getMessageContent()) + " is not quite right, " + game.getPlayer().getName() + "...\n")

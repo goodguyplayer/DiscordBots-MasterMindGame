@@ -117,7 +117,7 @@ public class ScoreDAO implements DAO<Player>, DAOFields {
             PreparedStatement preparedStatement = connection.prepareStatement(getInsertString(getTableName()));
             preparedStatement.setString(1, player.getName());
             preparedStatement.setString(2, player.getGuild());
-            preparedStatement.setInt(3, player.getScore());
+            preparedStatement.setInt(3, 1000000000);
             retorno = preparedStatement.executeUpdate();
         } catch(Exception e) {
             e.printStackTrace();
