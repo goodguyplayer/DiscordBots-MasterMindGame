@@ -1,5 +1,6 @@
 package models;
 
+import DAO.GameDAO;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.MessageDecoration;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -110,4 +111,48 @@ public class ListenerCommands implements MessageCreateListener {
         }
 
     }
+
+    /**
+     * Creates a game session and store in the database
+     * @param event
+     */
+    private void commandCreateGameSession(MessageCreateEvent event) {
+        if (event.getMessageContent().equalsIgnoreCase("!start")) {
+
+            // TODO.: See if instance doesn't already exist.
+
+            new MessageBuilder()
+                    .append("Starting a game session...")
+                    .append("I'm thinking of a word, 4 letters.")
+                    .append("Can you guess it?")
+                    .send(event.getChannel());
+            Player player = new Player(event.getMessageAuthor().getName(), event.getServer().toString());
+            GameSession gameSession = new GameSession();
+            gameSession.createSession(player);
+
+            GameDAO dao = new GameDAO();
+            dao.create(gameSession);
+
+        }
+    }
+
+    private void commandTestCode(MessageCreateEvent event) {
+        if (event.getMessageContent().contains("!try{")) {
+
+        }
+    }
+
+    // TODO.: Create range of allowed characters to test
+    private boolean isAllowedCharacters(String text) {
+        if (!text.contains("a")) {
+
+        }
+        return false;
+    }
+
+    // TODO.: See if instance is in database
+
+    // TODO.: Get instance in database
+
+    // TODO.: Remove instance from database
 }

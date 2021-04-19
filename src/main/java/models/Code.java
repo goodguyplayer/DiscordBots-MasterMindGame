@@ -40,6 +40,10 @@ public class Code {
         code = createCode();
     }
 
+    public Code(String code) {
+        this.code = code;
+    }
+
     /**
      * method that generates random numbers, from 97 to 102, ascii.
      * @return A random int that goes from 97 to 102

@@ -1,5 +1,7 @@
 package models;
 
+import org.javacord.api.event.message.MessageCreateEvent;
+
 import java.util.ArrayList;
 
 /**
@@ -20,66 +22,86 @@ Version 0.:
  */
 public class GameSession {
     Player player;
-    Code code = new Code();
+    Code code;
     int correct = 0;
     int incode = 0;
     int wrong = 0;
 
-    public String playerAttempt(String attempt) {
+    /**
+     * Obtain player attempt, increase score.
+     * @param attempt
+     * @return true if correct, false if wrong.
+     */
+    public boolean playerAttempt(String attempt) {
         player.increaseScore();
-        return verifyAttempt();
-    }
-
-    private String verifyAttempt() {
-        if (isCodeBroken()) {
-            return "Congratulations, you broke the code!\n" +
-                    "Original code.: " + code.getCode() +"\n" +
-                    "Attempts.: " + player.getScore();
-        } else {
-            String toreturn = "There are " + correct + "  letters that matches the code and are in the right position.\n" +
-                    "There are " + incode + "  letters that matches the code  but are in the wrong position.\n" +
-                    "There are " + wrong + "  letters that doesn't match the code.";
-            resetCounters();
-            return toreturn;
-        }
+        verifyLetters(attempt);
+        return (correct == 4) ? true : false;
     }
 
     /**
-     * Method that gets correct, incode and wrong, printing each to the screen
-     * @author Nathan (goodguyplayer)
+     * Load a session as a class.
+     * @param player
+     * @param code
      */
-    private void printCurrent() {
-        System.out.println("There are " + correct + "  letters that matches the code and are in the right position.");
-        System.out.println("There are " + incode + "  letters that matches the code  but are in the wrong position.");
-        System.out.println("There are " + wrong + "  letters that doesn't match the code.");
+    public void loadSession(Player player, Code code) {
+        this.player = player;
+        this.code = code;
     }
 
-    /**
-     * Method that reset the counters
-     * @author Nathan (goodguyplayer)
-     */
-    private void resetCounters() {
-        correct = 0;
-        incode = 0;
-        wrong = 0;
+    public void createSession(Player player) {
+        this.player = player;
+        this.code = new Code();
     }
 
-    /**
-     * Method that sees whether correct == 4
-     * @author Nathan (goodguyplayer)
-     */
-    private boolean isCodeBroken() {
-        if (correct == 4){
+    private boolean checkLetterMatch(int position, String attempt) {
+        if (attempt.charAt(position) == code.getCode().charAt(position)) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * method that checks whether the letter at the given position is in the code.
+     * @param position
+     * @return
+     * @author Nathan (goodguyplayer)
+     */
+    private boolean checkInCode(int position, String attempt) {
+        if (code.getCode().indexOf(attempt.charAt(position)) != -1) {
+            return true;
+        }
+        return false;
+    }
+
+    private void verifyLetters(String attempt) {
+        for (int i = 0; i < 4; i++) {
+            if(checkLetterMatch(i, attempt)) {
+                correct++;
+            } else if(checkInCode(i, attempt)) {
+                incode++;
+            } else {
+                wrong++;
+            }
+        }
     }
 
     public Player getPlayer(){
         return player;
     }
 
-    public String getPlayerName(){
-        return player.getName();
+    public Code getCode() {
+        return code;
+    }
+
+    public int getCorrect() {
+        return correct;
+    }
+
+    public int getIncode() {
+        return incode;
+    }
+
+    public int getWrong() {
+        return wrong;
     }
 }

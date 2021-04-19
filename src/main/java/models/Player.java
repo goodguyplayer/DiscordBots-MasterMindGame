@@ -36,7 +36,6 @@ public class Player {
     private String name;
     private String guild;
     private int score;
-    Scanner reader = new Scanner(System.in);
 
     /**
      * Constructor. Once class is created, start the score and attempt.
@@ -46,6 +45,12 @@ public class Player {
         score = 0;
         this.name = name;
         this.guild = guild;
+    }
+
+    public void PlayerFull(String name, String guild, int score) {
+        this.name = name;
+        this.guild = guild;
+        this.score = score;
     }
 
     /**
