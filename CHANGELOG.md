@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.5] - 2021-04-18
+### Added
+- Created DAO
+- Created DAOFields
+- Created GameDAO
+
+### Changed
+- GameSession in the progress of refactoration to represent a game instance.
+- Removed variable attempt and related methods in Player class
+- Session depreciated and to be removed
+
 ## [0.0.4] - 2021-04-18
 ### Added
 - Created class DiscordBotSettings, meant to deal with the start up settings.

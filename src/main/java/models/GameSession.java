@@ -25,14 +25,8 @@ public class GameSession {
     int incode = 0;
     int wrong = 0;
 
-    public GameSession(String name) {
-        player = new Player(name);
-    }
-
     public String playerAttempt(String attempt) {
-        player.setAttempt(attempt);
         player.increaseScore();
-        verifyLetters();
         return verifyAttempt();
     }
 
@@ -40,55 +34,13 @@ public class GameSession {
         if (isCodeBroken()) {
             return "Congratulations, you broke the code!\n" +
                     "Original code.: " + code.getCode() +"\n" +
-                    "Attempts.: " + player.getAttempt();
+                    "Attempts.: " + player.getScore();
         } else {
             String toreturn = "There are " + correct + "  letters that matches the code and are in the right position.\n" +
                     "There are " + incode + "  letters that matches the code  but are in the wrong position.\n" +
                     "There are " + wrong + "  letters that doesn't match the code.";
             resetCounters();
             return toreturn;
-        }
-    }
-
-    /**
-     * method that checks whether the letter at the given position matches the letter in the code.
-     * @param position int that defines the position.
-     * @return true if the letter match, false if it doesn't.
-     * @author Nathan (goodguyplayer)
-     */
-    private boolean checkLetterMatch(int position) {
-        if (player.getAttempt().charAt(position) == code.getCode().charAt(position)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * method that checks whether the letter at the given position is in the code.
-     * @param position
-     * @return
-     * @author Nathan (goodguyplayer)
-     */
-    private boolean checkInCode(int position) {
-        if (code.getCode().indexOf(player.getAttempt().charAt(position)) != -1) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Method that verifies the letters based on whether they match, are in the right position or not.
-     * @author Nathan (goodguyplayer)
-     */
-    private void verifyLetters() {
-        for (int i = 0; i < 4; i++) {
-            if(checkLetterMatch(i)) {
-                correct++;
-            } else if(checkInCode(i)) {
-                incode++;
-            } else {
-                wrong++;
-            }
         }
     }
 
