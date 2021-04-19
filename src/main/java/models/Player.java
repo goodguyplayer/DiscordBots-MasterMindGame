@@ -42,7 +42,7 @@ public class Player {
      * @author Nathan (goodguyplayer)
      */
     public Player(String name, String guild) {
-        score = 0;
+        score = 10000000;
         this.name = name;
         this.guild = guild;
     }
