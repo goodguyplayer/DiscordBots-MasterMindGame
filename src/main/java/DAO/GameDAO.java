@@ -33,7 +33,7 @@ public class GameDAO implements DAO<GameSession>, DAOFields{
 
     public GameDAO() {
         try {
-            String myDBConnectionString = "jdbc:sqlite:game.db";
+            String myDBConnectionString = "jdbc:sqlite:sqlite.db";
             connection = DriverManager.getConnection(myDBConnectionString);
         } catch (SQLException throwables) {
             throwables.printStackTrace();

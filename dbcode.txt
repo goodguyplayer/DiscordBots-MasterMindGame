@@ -1,0 +1,2 @@
+CREATE TABLE gamedb (name TEXT PRIMARY KEY, guild TEXT, score INT, code TEXT);
+CREATE TABLE scoredb (name TEXT PRIMARY KEY, guild TEXT, score INT);
