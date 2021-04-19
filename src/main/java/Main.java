@@ -1,7 +1,6 @@
-import models.DiscordBotSettings;
-import models.FileReader;
-import models.ListenerCommands;
+import models.*;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.message.MessageBuilder;
 
 /**
  * Main class, the one that calls the bot and make it run.
@@ -29,7 +28,6 @@ public class Main {
 
 
         api.addListener(new ListenerCommands());
-
 
     }
 
