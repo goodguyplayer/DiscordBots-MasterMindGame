@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.7] - 2021-04-19
+### Added 
+- Class ScoreDAO to track player's score
+
+### Changed
+- Class listenerCommands to include commands related to the score database
+
 ## [0.0.6] - 2021-04-19
 ### Changed
 - GameDAO updated to contain methods related to sql
