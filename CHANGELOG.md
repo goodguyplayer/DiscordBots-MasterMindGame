@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.6] - 2021-04-19
+### Changed
+- GameDAO updated to contain methods related to sql
+- class Player to help with the code
+- class GameSession to help with the code
+- class ListenerCommands to include commands related to the game
+- pom.xml to include jdbc
+
 ## [0.0.5] - 2021-04-18
 ### Added
 - Created DAO

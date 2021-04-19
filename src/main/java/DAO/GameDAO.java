@@ -135,7 +135,7 @@ public class GameDAO implements DAO<GameSession>, DAOFields{
 
     @Override
     public String getTableName() {
-        return "game";
+        return "gamedb";
     }
 
     @Override

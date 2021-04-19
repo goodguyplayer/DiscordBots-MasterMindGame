@@ -7,6 +7,8 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
+import java.util.List;
+
 /**
  * Class made to list the commands the bot responds to.
  *
@@ -46,6 +48,9 @@ public class ListenerCommands implements MessageCreateListener {
             commandHelp(event);
             commandInvite(event);
             commandTutorial(event);
+            commandCreateGameSession(event);
+            commandTestCode(event);
+            commandGiveUp(event);
         }
     }
 
@@ -68,7 +73,8 @@ public class ListenerCommands implements MessageCreateListener {
                             .setDescription("!start - Will start the game\n" +
                                     "!tutorial - Will give you the tutorial of the game \n" +
                                     "!help - Will summon this again!\n" +
-                                    "!invite - I'll send you a link to invite me (so I can rule the world more!)" +
+                                    "!invite - I'll send you a link to invite me (so I can rule the world more!)\n" +
+                                    "!score - Get to see the scoreboard (of your server)! Only the most recent games are saved" +
                                     ""))
                     .send(event.getChannel());
         }
@@ -118,39 +124,110 @@ public class ListenerCommands implements MessageCreateListener {
      */
     private void commandCreateGameSession(MessageCreateEvent event) {
         if (event.getMessageContent().equalsIgnoreCase("!start")) {
+            if(isInGameDatabase(event.getMessageAuthor().getName())){
+                new MessageBuilder()
+                        .append("Whoops, you are already in a game, silly")
+                        .append("Use !try{code} to test a code instead!")
+                        .send(event.getChannel());
+            } else {
+                new MessageBuilder()
+                        .append("Starting a game session...")
+                        .append("I'm thinking of a word, 4 letters.")
+                        .append("Can you guess it?")
+                        .send(event.getChannel());
+                Player player = new Player(event.getMessageAuthor().getName(), event.getServer().toString());
+                GameSession gameSession = new GameSession();
+                gameSession.createSession(player);
 
-            // TODO.: See if instance doesn't already exist.
-
-            new MessageBuilder()
-                    .append("Starting a game session...")
-                    .append("I'm thinking of a word, 4 letters.")
-                    .append("Can you guess it?")
-                    .send(event.getChannel());
-            Player player = new Player(event.getMessageAuthor().getName(), event.getServer().toString());
-            GameSession gameSession = new GameSession();
-            gameSession.createSession(player);
-
-            GameDAO dao = new GameDAO();
-            dao.create(gameSession);
-
+                GameDAO dao = new GameDAO();
+                dao.create(gameSession);
+            }
         }
     }
 
     private void commandTestCode(MessageCreateEvent event) {
         if (event.getMessageContent().contains("!try{")) {
+            if (isInGameDatabase(event.getMessageAuthor().getName())){
+                GameDAO dao = new GameDAO();
+                GameSession game = dao.get("name LIKE '%"+ event.getMessageAuthor().getName() +"%'").get(0);
+                if(game.playerAttempt(extractCode(event.getMessageContent()))) {
+                    new MessageBuilder()
+                            .append("Congrats! You got the code!")
+                            .append("Your score is " + game.getPlayer().getScore())
+                            .send(event.getChannel());
+                    dao.delete(game);
+                } else {
+                    new MessageBuilder()
+                            .append("Hmm... " + extractCode(event.getMessageContent()) + " is not quite right...")
+                            .append("There are " + game.getCorrect() + "  letters that matches the code and are in the right position.")
+                            .append("There are " + game.getIncode() + "  letters that matches the code  but are in the wrong position.")
+                            .append("There are " + game.getWrong() + "  letters that doesn't match the code.")
+                            .send(event.getChannel());
+                    dao.update(game);
+                }
+            }
 
         }
     }
 
-    // TODO.: Create range of allowed characters to test
-    private boolean isAllowedCharacters(String text) {
-        if (!text.contains("a")) {
+    private void commandGiveUp(MessageCreateEvent event) {
+        if (event.getMessageContent().contains("!giveup")) {
+            if (isInGameDatabase(event.getMessageAuthor().getName())){
+                GameDAO dao = new GameDAO();
+                GameSession game = dao.get("name LIKE '%"+ event.getMessageAuthor().getName() +"%'").get(0);
+                new MessageBuilder()
+                        .append("I'm sad at the fact that you're giving up.")
+                        .append("But hey, hopefully you'll play again")
+                        .send(event.getChannel());
+                dao.delete(game);
+            }
 
+        }
+    }
+
+    private String extractCode(String text) {
+        String toreturn = text.replace("!try{", "");
+        toreturn = toreturn.replace("}", "");
+        return toreturn;
+    }
+
+    private char convertNumberChar(int number) {
+        return (char)number;
+    }
+
+//    private boolean checkLetterMatch(String attempt, char letter) {
+//        for (int i = 0; i < 4; i++){
+//            if (attempt.charAt(i) == letter) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    // TODO.: Create range of allowed characters to test
+//    private boolean isAllowedCharacters(String text) {
+//        for (int i = 103; i < 123; i++) {
+//            if (checkLetterMatch()) {
+//
+//            }
+//        }
+//        return false;
+//    }
+
+    /**
+     * Sees whether user is in the game database.
+     * @param name name of user
+     * @return true to whether they are, false if they are not.
+     */
+    private boolean isInGameDatabase(String name) {
+        GameDAO dao = new GameDAO();
+        List<GameSession> game = dao.get("name LIKE '%"+ name +"%'");
+        if (game.size() != 0) {
+            return true;
         }
         return false;
     }
 
-    // TODO.: See if instance is in database
 
     // TODO.: Get instance in database
 
