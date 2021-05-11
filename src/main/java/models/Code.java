@@ -1,5 +1,6 @@
 package models;
 
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -30,6 +31,8 @@ Version 0.:
  */
 public class Code {
     String code = new String();
+    HashMap<Character, Integer> codeAppearances = new HashMap<Character, Integer>();
+    HashMap<Character, Integer> codePosition = new HashMap<Character, Integer>();
 
 
     /**
@@ -38,10 +41,14 @@ public class Code {
      */
     public Code() {
         code = createCode();
+        fillCodeAppearances();
+        fillCodePosition();
     }
 
     public Code(String code) {
         this.code = code;
+        fillCodeAppearances();
+        fillCodePosition();
     }
 
     /**
@@ -52,6 +59,26 @@ public class Code {
     private int randomNumber() {
         //return ThreadLocalRandom.current().nextInt(97, 122 + 1);
         return ThreadLocalRandom.current().nextInt(97, 102 + 1);
+    }
+
+    private void fillCodeAppearances(){
+        for (char letter: code.toCharArray()) {
+            if (isLetterInCodeAppearances(letter)) {
+                codeAppearances.put(letter, codeAppearances.get(letter) + 1);
+            } else {
+                codeAppearances.put(letter, 1);
+            }
+        }
+    }
+
+    private void fillCodePosition(){
+        for (int i = 0; i < 4; i++) {
+            codePosition.put(code.charAt(i), i);
+        }
+    }
+
+    private boolean isLetterInCodeAppearances(char letter){
+        return (codeAppearances.get(letter) != null) ? true : false;
     }
 
     /**
@@ -83,5 +110,13 @@ public class Code {
      */
     public String getCode() {
         return code;
+    }
+
+    public HashMap<Character, Integer> getCodeAppearances() {
+        return codeAppearances;
+    }
+
+    public HashMap<Character, Integer> getCodePosition() {
+        return codePosition;
     }
 }
